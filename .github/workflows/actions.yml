@@ -23,7 +23,6 @@ jobs:
           pip install -r backend/requirements.txt
 
       - name: execute py script # run main.py
-        environment: github-actions
         env:
           TRELLO_API_KEY: ${{ secrets.TRELLO_API_KEY }}
           TRELLO_API_TOKEN: ${{ secrets.TRELLO_API_TOKEN }}
