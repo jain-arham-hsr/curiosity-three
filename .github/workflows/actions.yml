@@ -2,7 +2,7 @@ name: run main.py
 
 on:
   schedule:
-    - cron: "0/5 * * * *" # Daily
+    - cron: "0 0 * * *" # Daily
 
 jobs:
   build:
@@ -22,6 +22,7 @@ jobs:
           pip install -r backend/requirements.txt
 
       - name: execute py script # run main.py
+        environment: github-actions
         env:
           TRELLO_API_KEY: ${{ secrets.TRELLO_API_KEY }}
           TRELLO_API_TOKEN: ${{ secrets.TRELLO_API_TOKEN }}
