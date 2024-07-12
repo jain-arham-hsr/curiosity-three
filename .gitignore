@@ -1,1 +1,3 @@
 backend/venv
+backend/serviceAccountKey.json
+backend/.env
