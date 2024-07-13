@@ -40,6 +40,8 @@ class FirebaseClient:
     def db_delete(self, path):
         self.db_ref.child(path).delete()
     
-    def upload_file(self, binary_str, filename):
+    def upload_file(self, binary_str, filename, content_type):
         blob = self.storage_bucket.blob(filename)
-        blob.upload_from_string(binary_str)
+        blob.upload_from_string(binary_str, content_type=content_type)
+        blob.make_public()
+        return blob.public_url

@@ -91,7 +91,4 @@ class TrelloCard:
             self._base_url + f"/attachments/{attachment_id}/download/{attachment_file_name}",
             headers=headers,
         )
-        # to be modified
-        with open("image.jpg", 'wb') as f:
-            f.write(response.content)
-        return json.loads(response.text)
+        return response.content

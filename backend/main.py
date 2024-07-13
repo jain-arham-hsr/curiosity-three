@@ -6,6 +6,8 @@ from collections import defaultdict
 import re
 from typing import List, Dict, Tuple, Union
 
+from datetime import datetime, timezone
+
 firebase_client = FirebaseClient()
 
 TRELLO_ANSWERED_LIST_ID = "660b9a8dea0561d699541b70"
@@ -14,14 +16,16 @@ LAST_EXEC_DATE = parser.isoparse(firebase_client.db_read('lastExec'))
 SUPPORTED_CARD_BG_COLORS = {'pink', 'yellow', 'lime', 'blue', 'black', 'orange', 'red', 'purple', 'sky', 'green'}
 SUPPORTED_CARD_TEXT_COLORS = {'dark', 'light'}
 
-def delete_removed_questions(answered_cards):
-    card_ids = [card['id'] for card in answered_cards]
-    keys = firebase_client.db_read('questions').keys()
-    [firebase_client.db_delete(key) for key in set(keys) - set(card_ids)]
+def format_date(date_obj):
+    return date_obj.strftime(r"%B %d, %Y")
 
 def is_card_updated(card):
     date_last_activity = parser.isoparse(card['dateLastActivity'])
     return date_last_activity >= LAST_EXEC_DATE
+
+def update_last_exec_date():
+    current_time = datetime.now(timezone.utc).isoformat()
+    firebase_client.db_write('lastExec', current_time)
 
 def highlight_card(card_id, highlight_color, text_color):
     if not all(color in supported for color, supported in [
@@ -34,6 +38,11 @@ def highlight_card(card_id, highlight_color, text_color):
         'brightness': text_color,
         'size': 'full'
     })
+
+def delete_removed_questions(answered_cards):
+    card_ids = [card['id'] for card in answered_cards]
+    keys = firebase_client.db_read('questions').keys()
+    [firebase_client.db_delete(key) for key in set(keys) - set(card_ids)]
 
 def parse_answer(answer: str) -> str:
     return answer.strip()
@@ -67,11 +76,15 @@ def process_comments(card_id, card_comments: List[str]) -> Tuple[Union[str, None
     return categories["Answer"][-1] if categories["Answer"] else None, categories["Citation"]
 
 def process_attachments(card_id, card_attachments):
-    attachments = []
-    for attachment in card_attachments:
-        print(TrelloCard(card_id).download_attachment(attachment['id'], attachment['name']))
-    attachment_urls = [attachment['url'] for attachment in card_attachments]
-    return attachment_urls
+    card = TrelloCard(card_id)
+    return [
+        firebase_client.upload_file(
+            card.download_attachment(att['id'], att['name']),
+            att['fileName'],
+            att['mimeType']
+        )
+        for att in card_attachments
+    ]
 
 def update_question(card):
     card_id = card['id']
@@ -79,6 +92,16 @@ def update_question(card):
     card_attachments = TrelloCard(card_id).get_attachments()
     answer, citations = process_comments(card_id, card_comments)
     attachment_links = process_attachments(card_id, card_attachments)
+    question = {
+        'date_asked': format_date(datetime.fromtimestamp(int(card_id[0:8],16))),
+        'last_updated': format_date(parser.isoparse(card['dateLastActivity'])),
+        'title': card['name'],
+        'desc': card['desc'],
+        'answer': answer,
+        'citations': citations,
+        'attachments': attachment_links
+    }
+    firebase_client.db_write(f'data/{card_id}', question)
 
 def run():
     TRELLO_ANSWERED_CARDS = TrelloList(TRELLO_ANSWERED_LIST_ID).get_cards()
