@@ -109,6 +109,7 @@ def run():
     for card in TRELLO_ANSWERED_CARDS:
         if is_card_updated(card):
             update_question(card)
+    update_last_exec_date()
 
 if __name__ == '__main__':
     run()
