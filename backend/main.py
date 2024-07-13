@@ -1,13 +1,13 @@
-from firebase_client import FirebaseClient
-from trello_client import TrelloList, TrelloCard
-from dateutil import parser
-from os.path import splitext
-
-from collections import defaultdict
 import re
-from typing import List, Dict, Tuple, Union
-
+from collections import defaultdict
 from datetime import datetime, timezone
+from os.path import splitext
+from typing import Dict, List, Tuple, Union
+
+from dateutil import parser
+
+from firebase_client import FirebaseClient
+from trello_client import TrelloCard, TrelloList
 
 firebase_client = FirebaseClient()
 
@@ -78,14 +78,17 @@ def process_comments(card_id, card_comments: List[str]) -> Tuple[Union[str, None
 
 def process_attachments(card_id, card_attachments):
     card = TrelloCard(card_id)
-    return [
-        firebase_client.upload_file(
+    attachment_links = {
+        re.sub(r"[\.\$\#\[\]\/]", "_", att['name']) : firebase_client.upload_file(
             card.download_attachment(att['id'], att['name']),
             att['id'] + splitext(att['fileName'])[-1],
             att['mimeType']
         )
         for att in card_attachments
-    ]
+    }
+    if len(attachment_links) < len(card_attachments):
+        highlight_card(card_id, "pink", "dark")
+    return attachment_links
 
 def update_question(card):
     card_id = card['id']
