@@ -1,6 +1,7 @@
 from firebase_client import FirebaseClient
 from trello_client import TrelloList, TrelloCard
 from dateutil import parser
+from os.path import splitext
 
 from collections import defaultdict
 import re
@@ -42,7 +43,7 @@ def highlight_card(card_id, highlight_color, text_color):
 def delete_removed_questions(answered_cards):
     card_ids = [card['id'] for card in answered_cards]
     keys = firebase_client.db_read('questions').keys()
-    [firebase_client.db_delete(key) for key in set(keys) - set(card_ids)]
+    [firebase_client.db_delete(f"questions/{key}") for key in set(keys) - set(card_ids)]
 
 def parse_answer(answer: str) -> str:
     return answer.strip()
@@ -80,7 +81,7 @@ def process_attachments(card_id, card_attachments):
     return [
         firebase_client.upload_file(
             card.download_attachment(att['id'], att['name']),
-            att['fileName'],
+            att['id'] + splitext(att['fileName'])[-1],
             att['mimeType']
         )
         for att in card_attachments
