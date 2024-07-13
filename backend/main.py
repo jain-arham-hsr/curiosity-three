@@ -101,7 +101,7 @@ def update_question(card):
         'citations': citations,
         'attachments': attachment_links
     }
-    firebase_client.db_write(f'data/{card_id}', question)
+    firebase_client.db_write(f'questions/{card_id}', question)
 
 def run():
     TRELLO_ANSWERED_CARDS = TrelloList(TRELLO_ANSWERED_LIST_ID).get_cards()
