@@ -4,10 +4,184 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Curiosity 3.0</title>
-		<link rel="stylesheet" href="./style.css" />
+		<link rel="stylesheet" href="./frontend/styles/main.css" />
+		<link rel="stylesheet" href="./frontend/styles/cards.css" />
 		<link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+			rel="stylesheet"
+		/>
 	</head>
 	<body>
-		<h1>Hello, World!</h1>
+		<script src="./frontend/scripts/interface.js" async></script>
+		<script type="module" src="./fetch.js" async></script>
+		<script src="./render.js" async></script>
+
+		<div class="hero">
+			<div class="hero-content">
+				<h1>
+					<span class="curiosity">Curiosity</span>
+					<span class="version">3.0</span>
+				</h1>
+				<p>|| जिज्ञासा ज्ञानस्य प्रथमं सोपानम् ||</p>
+				<div class="search-box">
+					<input
+						type="text"
+						id="search-input"
+						placeholder="Search for a scientific question..."
+						href="#card-container"
+					/>
+				</div>
+			</div>
+			<a class="credit" href="https://github.com/jain-arham-hsr"
+				>Made with ❤️ by Arham Jain</a
+			>
+		</div>
+		<div class="card-container" id="card-container">
+			<div class="card">
+				<div class="card-content">
+					<span class="question-number">Q1</span>
+					<h2 class="card-title">What causes the seasons on Earth?</h2>
+					<p class="card-description">
+						Understanding the tilt of Earth's axis and its effects on climate
+						patterns throughout the year. This description can now span multiple
+						lines if needed, maintaining readability and clean design.
+					</p>
+					<div class="card-answer">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
+						dapibus augue nisi. Nam vestibulum, ex sed pretium semper, odio
+						libero porta tortor, sed lobortis urna nunc mattis sem. Class aptent
+						taciti sociosqu ad litora torquent per conubia nostra, per inceptos
+						himenaeos. Vestibulum congue convallis purus vel accumsan. Sed lacus
+						purus, tristique at iaculis in, elementum eu dui. Proin in lobortis
+						urna, a vulputate purus. Ut egestas, massa interdum laoreet
+						fermentum, risus nunc iaculis odio, in commodo enim mauris nec
+						lectus. Praesent nec quam hendrerit, venenatis purus accumsan,
+						accumsan diam. Vivamus nec ipsum ante. Proin id tempus nibh. Duis
+						quis ex condimentum, sagittis lorem et, volutpat lacus. Etiam dictum
+						fringilla purus, quis efficitur nisi suscipit sit amet. Morbi
+						accumsan nisi in dui ullamcorper, vel porttitor lacus convallis.<br />
+						Phasellus ac maximus turpis, mattis interdum lorem. Vestibulum eget
+						nisl metus. Ut non ligula velit. Fusce ac mollis turpis. Aenean orci
+						est, luctus sed nunc at, interdum eleifend risus. Praesent et sapien
+						non urna lobortis eleifend. Duis odio tellus, luctus vel nibh ac,
+						rhoncus dictum massa. Pellentesque eget purus ac risus lacinia
+						ultricies. Nullam imperdiet vel nunc vel porttitor. Quisque rutrum
+						augue non velit sodales scelerisque. Sed consectetur neque quis
+						cursus euismod. Nulla venenatis enim in nibh bibendum aliquet.
+						Vestibulum euismod consectetur leo, fermentum porta ligula convallis
+						eu. Morbi ac leo quis augue facilisis ultrices eget at lectus.<br />
+						Pellentesque lobortis lectus eu tempus facilisis. Ut id viverra
+						orci, ac dictum urna. Suspendisse ut placerat nisi. Etiam eget
+						maximus ante. Curabitur velit felis, blandit non ex eget, fringilla
+						fermentum nisl. Orci varius natoque penatibus et magnis dis
+						parturient montes, nascetur ridiculus mus. Donec at quam quam. Sed
+						dui lectus, luctus at vehicula ut, varius quis risus. Sed pulvinar
+						ante sed porttitor laoreet. Nam vel dignissim nulla, quis pharetra
+						justo. Maecenas lacinia massa laoreet nulla pretium, et auctor ipsum
+						tincidunt. Duis euismod feugiat ultricies. Maecenas tempus purus in
+						diam hendrerit vestibulum. Suspendisse ut facilisis arcu.<br />
+						<img src="./frontend/assets/images/favicon.ico" />
+						Fusce tincidunt vitae arcu non accumsan. Nam consequat fringilla
+						consequat. Donec pulvinar molestie pharetra. Sed varius elementum
+						lorem sed mattis. Nam ut condimentum leo. Aliquam sit amet varius
+						augue. Nulla finibus varius molestie. Duis ut purus lacinia mi
+						gravida luctus vel et leo. Pellentesque quis nulla placerat,
+						vehicula elit in, maximus ante. Integer eget ornare magna, eu
+						condimentum ex. Aliquam dignissim, diam at elementum scelerisque,
+						sapien magna bibendum nisl, id aliquam arcu ipsum vel urna. Nullam
+						tristique rutrum mauris. Curabitur lobortis eget sem in aliquam.<br />
+						Proin pharetra at arcu imperdiet tempor. Nulla ullamcorper egestas
+						eros quis aliquam. Suspendisse non auctor leo. Ut blandit pulvinar
+						arcu, ac posuere magna lobortis nec. Duis sit amet lacinia tellus.
+						Sed condimentum imperdiet egestas. Nulla sed sapien sodales,
+						placerat sem eget, dignissim eros. Mauris aliquet sollicitudin nibh,
+						ut blandit magna feugiat sed. In blandit nibh a gravida lobortis.
+					</div>
+					<button class="citations-toggle" onclick="toggleCitations(this)">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M19 9l-7 7-7-7"
+							/>
+						</svg>
+						Show Citations
+					</button>
+					<div class="citations-content">
+						<h4>Citations and References:</h4>
+						<ul>
+							<li>
+								Astronomical Society of the Pacific: 'The Reason for the
+								Seasons'
+							</li>
+							<li>NASA Earth Observatory: 'Milutin Milankovitch'</li>
+							<li>National Geographic: 'Seasons'</li>
+						</ul>
+					</div>
+					<div class="badges">
+						<span class="badge">Asked: July 10, 2024</span>
+						<span class="badge">Updated: July 14, 2024</span>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-content">
+					<span class="question-number">Q1</span>
+					<h2 class="card-title">What causes the seasons on Earth?</h2>
+					<p class="card-description">
+						Understanding the tilt of Earth's axis and its effects on climate
+						patterns throughout the year. This description can now span multiple
+						lines if needed, maintaining readability and clean design.
+					</p>
+					<p class="card-answer">
+						The seasons on Earth are primarily caused by the tilt of the Earth's
+						axis relative to its orbit around the Sun, not by the distance from
+						the Sun. This tilt, which is about 23.5 degrees, causes different
+						parts of the Earth to receive varying amounts of sunlight throughout
+						the year as the planet orbits the Sun.
+					</p>
+					<button class="citations-toggle" onclick="toggleCitations(this)">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M19 9l-7 7-7-7"
+							/>
+						</svg>
+						Show Citations
+					</button>
+					<div class="citations-content">
+						<h4>Citations and References:</h4>
+						<ul>
+							<li>
+								Astronomical Society of the Pacific: 'The Reason for the
+								Seasons'
+							</li>
+							<li>NASA Earth Observatory: 'Milutin Milankovitch'</li>
+							<li>National Geographic: 'Seasons'</li>
+						</ul>
+					</div>
+					<div class="badges">
+						<span class="badge">Asked: July 10, 2024</span>
+						<span class="badge">Updated: July 14, 2024</span>
+					</div>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>
