@@ -17,7 +17,8 @@ class TrelloList:
         }
         params = {
             'key': API_KEY,
-            'token': API_TOKEN
+            'token': API_TOKEN,
+            'limit': 1000
         }
         response = requests.request(
             "GET",
@@ -25,6 +26,8 @@ class TrelloList:
             headers=headers,
             params=params
         )
+        if response.status_code != 200:
+            raise RuntimeError("Request to Trello API failed.")
         return json.loads(response.text)
 
 class TrelloCard:
@@ -47,15 +50,18 @@ class TrelloCard:
             headers=headers,
             json=params
         )
+        if response.status_code != 200:
+            raise RuntimeError("Request to Trello API failed.")
         return response.text
 
-    def get_actions(self, filter:TrelloList):
+    def get_actions(self, filter:list):
         headers = {
             "Accept": "application/json"
         }
         params = {
             'key': API_KEY,
             'token': API_TOKEN,
+            'limit': 1000,
             'filter': filter
         }
         response = requests.request(
@@ -64,6 +70,8 @@ class TrelloCard:
             headers=headers,
             params=params
         )
+        if response.status_code != 200:
+            raise RuntimeError("Request to Trello API failed.")
         return json.loads(response.text)
     
     def get_attachments(self):
@@ -80,6 +88,8 @@ class TrelloCard:
             headers=headers,
             params=params
         )
+        if response.status_code != 200:
+            raise RuntimeError("Request to Trello API failed.")
         return json.loads(response.text)
     
     def download_attachment(self, attachment_id, attachment_file_name):
@@ -91,4 +101,6 @@ class TrelloCard:
             self._base_url + f"/attachments/{attachment_id}/download/{attachment_file_name}",
             headers=headers,
         )
+        if response.status_code != 200:
+            raise RuntimeError("Request to Trello API failed.")
         return response.content
