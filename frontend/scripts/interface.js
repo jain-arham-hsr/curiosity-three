@@ -31,6 +31,9 @@ const searchInput = document.getElementById("search-input");
 const cards = document.querySelectorAll(".card");
 const cardContainer = document.getElementById("card-container");
 var numOfResults = cards.length;
+if (numOfResults === 0) {
+	document.getElementById("card-container").style.display = "none";
+}
 
 searchInput.addEventListener("input", function () {
 	numOfResults = 0;
@@ -49,10 +52,8 @@ searchInput.addEventListener("input", function () {
 	if (numOfResults === 0) {
 		document.getElementById("card-container").style.display = "none";
 		searchInput.classList.add("invalid-input");
-		setTimeout(() => {
-			searchInput.classList.remove("invalid-input");
-		}, 500);
 	} else {
+		searchInput.classList.remove("invalid-input");
 		document.getElementById("card-container").style.display = "flex";
 	}
 });
@@ -62,8 +63,5 @@ searchInput.addEventListener("keyup", function (e) {
 		if (e.key === "Enter") cardContainer.scrollIntoView();
 	} else {
 		searchInput.classList.add("invalid-input");
-		setTimeout(() => {
-			searchInput.classList.remove("invalid-input");
-		}, 500);
 	}
 });
