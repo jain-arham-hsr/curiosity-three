@@ -72,7 +72,7 @@ def process_comments(card_id, card_comments: List[str]) -> Tuple[Union[str, None
         
         part0, part1 = parts[0].strip(), parts[1].strip()
 
-        if part0.lower() == "### answer summary":
+        if part0.lower().lstrip(' #').startswith("answer summary"):
             categories["Answer"].append(parse_answer(part1))
         elif part1.lower().startswith("source:"):
             categories["Citation"].append(parse_citation(part0, part1))

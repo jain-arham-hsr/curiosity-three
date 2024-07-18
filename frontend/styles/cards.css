@@ -173,11 +173,11 @@
 	margin-bottom: 8px;
 	position: relative;
 	padding-left: 15px;
-	color: inherit;
 }
 
-.source:visited,
-.source:active {
+.source a:link,
+.source a:visited,
+.source a:active {
 	color: inherit;
 }
 
