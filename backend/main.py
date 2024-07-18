@@ -1,6 +1,7 @@
 import re
 from collections import defaultdict
 from datetime import datetime, timezone
+from itertools import groupby
 from os.path import splitext
 from typing import Dict, List, Tuple, Union
 
@@ -24,6 +25,11 @@ def is_card_updated(card):
     date_last_activity = parser.isoparse(card['dateLastActivity'])
     return date_last_activity >= LAST_EXEC_DATE
 
+def had_duplicate_att_names(attachments):
+    sorted_attachments = sorted(attachments.values(), key=lambda x: x['name'])
+    return next((True for _, group in groupby(sorted_attachments, key=lambda x: x['name']) 
+                 if len(list(group)) > 1), False)
+
 def update_last_exec_date():
     current_time = datetime.now(timezone.utc).isoformat()
     firebase_client.db_write('lastExec', current_time)
@@ -37,7 +43,7 @@ def highlight_card(card_id, highlight_color, text_color):
     TrelloCard(card_id).update_card(cover={
         'color': highlight_color,
         'brightness': text_color,
-        'size': 'full'
+        'size': 'normal'
     })
 
 def delete_removed_questions(answered_cards):
@@ -61,7 +67,7 @@ def process_comments(card_id, card_comments: List[str]) -> Tuple[Union[str, None
         comment_text = comment['data']['text']
         parts = re.split(r'(?:\=|\-|\*){3,}', comment_text)
         if len(parts) != 2:
-            highlight_card(card_id, highlight_color="orange", text_color="dark")
+            highlight_card(card_id, highlight_color="red", text_color="dark")
             continue
         
         part0, part1 = parts[0].strip(), parts[1].strip()
@@ -71,7 +77,7 @@ def process_comments(card_id, card_comments: List[str]) -> Tuple[Union[str, None
         elif part1.lower().startswith("source:"):
             categories["Citation"].append(parse_citation(part0, part1))
         else:
-            highlight_card(card_id, highlight_color="orange", text_color="dark")
+            highlight_card(card_id, highlight_color="red", text_color="dark")
             continue
 
     return categories["Answer"][-1] if categories["Answer"] else None, categories["Citation"]
@@ -79,15 +85,18 @@ def process_comments(card_id, card_comments: List[str]) -> Tuple[Union[str, None
 def process_attachments(card_id, card_attachments):
     card = TrelloCard(card_id)
     attachment_links = {
-        re.sub(r"[\.\$\#\[\]\/]", "_", att['name']) : firebase_client.upload_file(
-            card.download_attachment(att['id'], att['name']),
-            att['id'] + splitext(att['fileName'])[-1],
-            att['mimeType']
-        )
+        att['id'] : {
+            "name": att['name'],
+            "url": firebase_client.upload_file(
+                card.download_attachment(att['id'], att['name']),
+                att['id'] + splitext(att['fileName'])[-1],
+                att['mimeType']
+            )
+        }
         for att in card_attachments
     }
-    if len(attachment_links) < len(card_attachments):
-        highlight_card(card_id, "pink", "dark")
+    if had_duplicate_att_names(attachment_links):
+        highlight_card(card_id, "orange", "dark")
     return attachment_links
 
 def update_question(card):

@@ -25,7 +25,7 @@ const dbRef = ref(database);
 get(child(dbRef, `questions`))
 	.then((snapshot) => {
 		if (snapshot.exists()) {
-			render(snapshot.val());
+			renderCards(snapshot.val());
 		} else {
 			console.log("No data available");
 		}

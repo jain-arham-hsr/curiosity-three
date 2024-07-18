@@ -1,6 +1,6 @@
 .card-container {
 	font-family: "Poppins", sans-serif;
-	display: flex;
+	display: none;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
@@ -47,11 +47,16 @@
 
 .question-number {
 	position: absolute;
-	top: 16px;
-	left: 16px;
-	font-size: 16px;
-	font-weight: 600;
+	top: 20px;
+	left: 20px;
+	font-size: 1.5rem;
+	font-weight: 700;
 	color: var(--accent-color);
+	background-color: #f0e2ef;
+	padding: 4px 16px;
+	min-width: 20px;
+	border-radius: 40px;
+	text-align: center;
 }
 .card-title {
 	font-size: 28px;
@@ -69,6 +74,13 @@
 	margin-bottom: 24px;
 	color: var(--text-color);
 }
+
+.card-answer-img {
+	display: block;
+	margin: 1.5em auto;
+	max-width: 100%;
+}
+
 .card-content br {
 	display: block;
 	content: "";
@@ -96,29 +108,116 @@
 	height: 20px;
 	margin-right: 8px;
 }
-.citations-content {
-	background-color: #f8fafc;
+.citations-container {
+	background-color: rgb(251, 251, 251);
 	border-radius: 8px;
 	margin-top: 16px;
 	padding: 20px;
 	display: none;
 	text-align: left;
 }
-.citations-content h4 {
+.citations-container h4 {
 	font-size: 18px;
 	margin-top: 0;
 	margin-bottom: 12px;
-	color: var(--primary-color);
+	color: var(--accent-color);
+	padding-bottom: 10px;
+	border-bottom: 2px solid var(--accent-color);
 }
-.citations-content ul {
-	margin: 0;
-	padding-left: 24px;
+
+.citations-content {
+	counter-reset: citation-counter;
 }
-.citations-content li {
+
+.citation {
+	margin-bottom: 30px;
+	position: relative;
+	counter-increment: citation-counter;
+	padding-left: 40px;
+}
+
+.citation::before {
+	content: counter(citation-counter);
+	position: absolute;
+	left: 0;
+	top: 0;
+	background-color: var(--accent-color);
+	color: white;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 600;
+	font-size: 14px;
+}
+
+.paraphrase {
 	font-size: 16px;
-	margin-bottom: 8px;
-	color: #4a5568;
+	line-height: 1.8;
+	color: #2c3e50;
+	margin-bottom: 15px;
+	padding-left: 15px;
+	border-left: 3px solid var(--accent-color);
 }
+
+.sources {
+	font-size: 14px;
+	color: #7f8c8d;
+	font-style: italic;
+	padding-left: 18px;
+}
+
+.source {
+	margin-bottom: 8px;
+	position: relative;
+	padding-left: 15px;
+	color: inherit;
+}
+
+.source:visited,
+.source:active {
+	color: inherit;
+}
+
+.source::before {
+	content: "•";
+	position: absolute;
+	left: 0;
+	color: var(--accent-color);
+}
+
+.single-source {
+	padding-left: 0;
+}
+
+.single-source::before {
+	content: none;
+}
+
+.divider {
+	height: 1px;
+	background: linear-gradient(to right, var(--accent-color), transparent);
+	margin: 30px 0;
+}
+
+@media (max-width: 600px) {
+	.card {
+		padding: 20px;
+	}
+
+	.citation {
+		padding-left: 35px;
+	}
+
+	.citation::before {
+		width: 25px;
+		height: 25px;
+		font-size: 12px;
+	}
+}
+
 .badges {
 	display: flex;
 	justify-content: flex-end;
